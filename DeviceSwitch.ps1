@@ -1,5 +1,7 @@
-$TelevisionDriver = "SAMSUNG (NVIDIA High Definition Audio)"
-$HeadsetDriver = "Speakers (4- PRO X Wireless Gaming Headset)"
+
+# Randomly the driver gets a number prepended to the device name, so we're adding a wildcard
+$TelevisionDriver = "*SAMSUNG*NVIDIA High Definition Audio*"
+$HeadsetDriver = "*PRO X Wireless Gaming Headset*"
 
 # Install the AudioDeviceCmdlets module if not already installed
 if (-not (Get-Module -Name AudioDeviceCmdlets -ListAvailable)) {
@@ -20,7 +22,7 @@ Write-Host "CURRENT DEVICE:"
 Write-Host $CurrentDevice.Name
 
 if ($CurrentDevice -eq $null) {
-    Write-Host "The current audio output device is not Device1 or Device2."
+    Write-Host "The current audio output device is not Device1 or Device2 (not TV or Headset)."
     [System.Windows.MessageBox]::Show('The current audio output device is not TV or Headset', 'DeviceSwitchUtil', 'Ok', 'Error')
 }
 else {
@@ -37,8 +39,8 @@ else {
     }
 
     if ($DesiredDevice -eq $null) {
-        Write-Host "The desired audio output device '$($DesiredDevice.Name)' was not found."
-        [System.Windows.MessageBox]::Show("The desired audio output device '$($DesiredDevice.Name)' was not found.", 'DeviceSwitchUtil', 'Ok', 'Error')
+        Write-Host "The desired audio output device '$($DesiredDevice.Name)' known as '$($DesiredDevicePrettyName)' was not found. Check if the device names are correct and showing in the Powershell query."
+        [System.Windows.MessageBox]::Show("The desired audio output device '$($DesiredDevice.Name)' known as '$($DesiredDevicePrettyName)' was not found. Check if the device names are correct and showing in the Powershell query.", 'DeviceSwitchUtil', 'Ok', 'Error')
     }
     else {
         # Set the desired device as the default audio output device
